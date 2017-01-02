@@ -27,6 +27,3 @@ build/Release
 node_modules
 
 dist
-
-# Bower
-bower_components/

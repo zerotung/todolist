@@ -1,0 +1,56 @@
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: #222;
+}
+
+.content {
+  width: 100%;
+  height: 100%;
+}
+
+/* stage -- start */
+.stage {
+  position: relative;
+
+  width: 100%;
+  height: 720px;
+}
+/* stage -- end */
+
+/* todolist -- start */
+.todolist-wrap {
+  width: 600px;
+  background-color: #fff;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 10px;
+  box-sizing: border-box;
+
+  @at-root {
+    .todolist-title {
+      text-align: center;
+    }
+    
+  }
+
+}
+
+.todolist-item {
+  height: 24px;
+  line-height: 24px;
+  margin: 3px;
+  position: relative;
+  
+  .todolist-item-content {
+    margin-left: 10px;
+    display: inline-block;
+  }
+
+  .todolist-item-delete {
+    position: absolute;
+    right: 5px;
+    top: 0px;
+    display: none;
+  }
+}
