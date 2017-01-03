@@ -5,10 +5,19 @@ import React from 'react';
 
 class TodolistItem extends React.Component {
 
+    handleClick() {
+
+        this.props.complete();
+    }
+
     render() {
+
+        let isComplete = this.props.data.isComplete ? 'checked' : '';
+
         return (
             <section className="todolist-item">
-                <input className="todolist-item-checkbox" type="checkbox" />
+                <input className="todolist-item-checkbox" type="checkbox" checked={isComplete}
+                        onChange={()=>this.handleClick()}/>
                 <div className="todolist-item-content">{this.props.data.content}</div>
                 <span className="todolist-item-delete">delete</span>
             </section>
@@ -16,22 +25,10 @@ class TodolistItem extends React.Component {
     }
 }
 
-class TodolistInput extends React.Component {
-
-    render() {
-        return (
-            <section className="todolist-input">
-                <input type="text" placeholder="请输入要添加的待办事宜" />
-                <button>添加</button>
-            </section>
-        );
-    }
-}
-
 class AppComponent extends React.Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             data: [{
                 id: '0',
@@ -49,6 +46,37 @@ class AppComponent extends React.Component {
         }
     }
 
+    handleComplete(index) {
+
+        return function() {
+
+            let data = this.state.data;
+            data[index].isComplete = !data[index].isComplete;
+            this.setState({
+                data: data
+            });
+        }.bind(this);
+    }
+
+    handleAdd() {
+
+        let data = this.state.data,
+            content = this.refs.inputBox.value,
+            id = '' + data.length;
+
+        data.push({
+            id: id,
+            content: content,
+            inComplete: false
+        })
+
+        this.refs.inputBox.value = '';
+
+        this.setState({
+            data: data
+        })
+    }
+
     render() {
 
         let data = this.state.data,
@@ -56,7 +84,8 @@ class AppComponent extends React.Component {
             completedTaskNum = 0;
 
         data.forEach((value, index) => {
-            todolistArr.push(<TodolistItem data={value} key={index} />)
+            todolistArr.push(<TodolistItem data={value} key={index}
+                    complete={this.handleComplete(index)}/>)
         })
 
         completedTaskNum = data.reduce((x, y) => {
@@ -75,8 +104,10 @@ class AppComponent extends React.Component {
                     </section>
                         {statusBar}
                     <hr />
-                    <section className="todolist-add">
-                        <TodolistInput />
+                    <section className="todolist-input">
+                        <input className="todolist-input-box" placeholder="请输入要添加的待办事宜"
+                                type="text" ref="inputBox" />
+                        <div className="todolist-input-btn" onClick={()=>this.handleAdd()}>添加</div>
                     </section>
                 </section>
             </section>
